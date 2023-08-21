@@ -26,9 +26,11 @@ class _AddExpenseState extends State<AddExpense> {
   final ExpenseController = TextEditingController();
   final AmountController = TextEditingController();
   void item_selected(String? value) {
-    setState(() {
-      default_dropdown_value = value!;
-    });
+    if (mounted) {
+      setState(() {
+        default_dropdown_value = value!;
+      });
+    }
   }
 
   Future<DateTime?> ShowDateTimePicker() async {
@@ -38,9 +40,11 @@ class _AddExpenseState extends State<AddExpense> {
         firstDate: DateTime(2000),
         lastDate: DateTime(2025));
     if (newDate != null) {
-      setState(() {
-        selectedDate = newDate;
-      });
+      if (mounted) {
+        setState(() {
+          selectedDate = newDate;
+        });
+      }
     }
     return null;
   }
@@ -196,7 +200,7 @@ class _AddExpenseState extends State<AddExpense> {
               ),
               onPressed: () async {
                 debugPrint(user!.uid);
-                 DatabaseReference realref = ref.child(user!.uid).push();
+                DatabaseReference realref = ref.child(user!.uid).push();
                 await realref.set({
                   "category": default_dropdown_value,
                   "amount": ExpenseController.text.toString(),
