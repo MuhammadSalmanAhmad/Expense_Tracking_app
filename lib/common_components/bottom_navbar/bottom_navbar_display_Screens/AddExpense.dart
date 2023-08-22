@@ -75,67 +75,71 @@ class _AddExpenseState extends State<AddExpense> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                "Select Expense Category :",
-                style: GoogleFonts.abel(
-                    color: const Color(0xff088395),
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              Flexible(
+                child: Text(
+                  "Select Expense Category :",
+                  style: GoogleFonts.abel(
+                      color: const Color(0xff088395),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               const SizedBox(
                 width: 10,
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    color: const Color(0xff088395),
-                    borderRadius: BorderRadius.circular(10)),
-                child: DropdownButton(
-                  icon: const Icon(Icons.arrow_drop_down_circle_rounded),
-                  iconSize: 20,
-                  items: const [
-                    DropdownMenuItem(
-                        value: "Food",
-                        child: Text(
-                          "Food",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    DropdownMenuItem(
-                        value: "Travel",
-                        child: Text(
-                          "Travel",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    DropdownMenuItem(
-                        value: "Shopping",
-                        child: Text(
-                          "Shopping",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    DropdownMenuItem(
-                        value: "Grocerry",
-                        child: Text(
-                          "Grocerry",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    DropdownMenuItem(
-                        value: "Entertainment",
-                        child: Text(
-                          "entertainment",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                    DropdownMenuItem(
-                        value: "Fuel",
-                        child: Text(
-                          "Fuel",
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  ],
-                  onChanged: item_selected,
-                  value: default_dropdown_value,
-                  focusColor: const Color(0xff088395),
-                  dropdownColor: const Color(0xff088395),
-                  borderRadius: BorderRadius.circular(20),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff088395),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownButton(
+                    icon: const Icon(Icons.arrow_drop_down_circle_rounded),
+                    iconSize: 20,
+                    items: const [
+                      DropdownMenuItem(
+                          value: "Food",
+                          child: Text(
+                            "Food",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                      DropdownMenuItem(
+                          value: "Travel",
+                          child: Text(
+                            "Travel",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                      DropdownMenuItem(
+                          value: "Shopping",
+                          child: Text(
+                            "Shopping",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                      DropdownMenuItem(
+                          value: "Grocerry",
+                          child: Text(
+                            "Grocerry",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                      DropdownMenuItem(
+                          value: "Entertainment",
+                          child: Text(
+                            "entertainment",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                      DropdownMenuItem(
+                          value: "Fuel",
+                          child: Text(
+                            "Fuel",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ],
+                    onChanged: item_selected,
+                    value: default_dropdown_value,
+                    focusColor: const Color(0xff088395),
+                    dropdownColor: const Color(0xff088395),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
             ],

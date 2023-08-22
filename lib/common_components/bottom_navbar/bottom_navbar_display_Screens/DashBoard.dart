@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -33,8 +32,6 @@ class _MainPanelState extends State<MainPanel> {
 
   // function for getting chart data
 
-  
-
   ///iN THIS INIT STATE WE ARE GETTING VALUES OF DIFFERENT DATA POINTS FROM THE FIREBASE DATABASE AND STORING THEM IN A LIST
   ///AND THEN USING THAT LIST TO DISPLAY THE CHART
 
@@ -66,17 +63,15 @@ class _MainPanelState extends State<MainPanel> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-  List<ExpenseData> getData() {
-    List<ExpenseData> data = [];
-    for (int i = 0; i < amounts.length; i++) {
-      data.add(ExpenseData(categories[i], amounts[i]));
+    List<ExpenseData> getData() {
+      List<ExpenseData> data = [];
+      for (int i = 0; i < amounts.length; i++) {
+        data.add(ExpenseData(categories[i], amounts[i]));
+      }
+      return data;
     }
-    return data;
-  }
-late List<ExpenseData> chartdata = getData();
+
+    late List<ExpenseData> chartdata = getData();
     reference.child('$username/name').onValue.listen((event) {
       var snapshot = event.snapshot;
       setState(() {
@@ -99,10 +94,10 @@ late List<ExpenseData> chartdata = getData();
               series: <CircularSeries>[
                 PieSeries<ExpenseData, String>(
                   dataSource: chartdata,
-                  dataLabelMapper:(ExpenseData data, _) => data.category ,
+                  dataLabelMapper: (ExpenseData data, _) => data.category,
                   xValueMapper: (ExpenseData data, _) => data.category,
-                  yValueMapper: (ExpenseData data, _) => data.amount/total_expense*100 ,
-              
+                  yValueMapper: (ExpenseData data, _) =>
+                      data.amount / total_expense * 100,
                   dataLabelSettings: const DataLabelSettings(
                       isVisible: true,
                       labelPosition: ChartDataLabelPosition.inside),

@@ -57,16 +57,18 @@ class _ChatGPTState extends State<ChatGPT> {
               children: [
                 SizedBox(
                   height: 100,
-                  width: 300,
-                  child: TextFormField(
-                      expands: true,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      controller: prompt,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        label: Text("Enter your message here"),
-                      )),
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Flexible(
+                    child: TextFormField(
+                        expands: true,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: prompt,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          label: Text("Enter your message here"),
+                        )),
+                  ),
                 ),
                 IconButton(
                     onPressed: ()  {
