@@ -115,7 +115,7 @@ class _MainPanelState extends State<MainPanel> {
                         title:
                             Text(snapshot.child('category').value.toString()),
                         trailing: Text(
-                            "\$" + snapshot.child('amount').value.toString()));
+                            "\$${snapshot.child('amount').value}"));
                   }))
         ],
       ),
