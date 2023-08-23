@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:telephony/telephony.dart';
 
 class SmsWidget extends StatefulWidget {
   const SmsWidget({Key? key}) : super(key: key);
@@ -12,14 +12,16 @@ class SmsWidget extends StatefulWidget {
 }
 
 class _SmsWidgetState extends State<SmsWidget> {
-  late String sms;
-  final SmsQuery _query = SmsQuery();
+  late String sms = "Your messages will be displayed here";
+
+  final Telephony telephony = Telephony.instance;
   List<SmsMessage> _messages = [];
 
   final auth = FirebaseAuth.instance;
   late final user = auth.currentUser;
   FirebaseDatabase database = FirebaseDatabase.instance;
   DatabaseReference ref = FirebaseDatabase.instance.ref("Expenses/");
+  
 
   List<String> Categories = [
     'food',
@@ -30,10 +32,57 @@ class _SmsWidgetState extends State<SmsWidget> {
     'others'
   ];
 
-  @override
-  void initState() {
-    super.initState();
+   @override
+  initState(){
+  super.initState();
+  // _getSmsMessages();
+  setState(() {
+    _getSmsMessages();
+  });
   }
+
+ 
+  Future<void> _getSmsMessages() async {
+    if (await Permission.sms.status.isDenied) {
+      await Permission.sms.request();
+    }
+    if (await Permission.sms.status.isGranted) {
+      bool? permissionsGranted = await telephony.requestPhoneAndSmsPermissions;
+      debugPrint("Permissions granted: $permissionsGranted");
+      List<SmsMessage> messages = await telephony.getInboxSms(
+        // columns: [SmsColumn.ID, SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE ],
+        // sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.DESC)],
+        sortOrder: [OrderBy(SmsColumn.DATE, sort: Sort.DESC)],
+      );
+      print("Number of Messages Read from Phone ${messages.length}");
+      print("Data of Messages 1 Read ${messages[0].read}");
+      print("Data of Messages 1 Read ${messages[0].read}");
+
+      // print(messages[0].date.toString());  
+      _messages = messages;
+      // setState(() {
+      //   _messages = messages;
+      // });
+    } else {
+      // Handle permission denied
+      print("Permission to read SMS messages is denied.");
+    }
+  }
+
+  // @override
+  // void setState(VoidCallback fn) {
+  //   // TODO: implement setState
+  //   if (mounted) {
+  //     telephony.listenIncomingSms(
+  //         onNewMessage: (SmsMessage message) {
+  //           setState(() {
+  //             sms = message.body!;
+  //           });
+  //         },
+  //         listenInBackground: false);
+  //     super.setState(fn);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,47 +92,12 @@ class _SmsWidgetState extends State<SmsWidget> {
         children: [
           Center(
             child: ElevatedButton(
-                onPressed: () async {
-                 var permission = await Permission.sms.status;
-                    if (permission.isGranted) {
-                      final messages = await _query.querySms(
-                        kinds: [
-                          SmsQueryKind.inbox,
-                        ],
-                        // address: '+254712345789',
-                        sort: true,
-                        count: 100,
-                      );
-                      debugPrint('sms inbox messages: ${messages.length}');
-                      String? testbody = messages[1].body;
-
-                      List<String> testbodylist = testbody!.split(' ');
-                      for (var i in testbodylist) {
-                        if (Categories.contains(i)) {
-                          for (var x in testbodylist) {
-                            if (x == 'amount') {
-                              var amount =
-                                  testbodylist[testbodylist.indexOf(x) + 2];
-                              DatabaseReference realref =
-                                  ref.child(user!.uid).push();
-                              await realref.set({
-                                "category": i,
-                                "amount": amount,
-                                "Date": DateTime.now().toString()
-                              });
-                            }
-                          }
-                        }
-                      }
-                      debugPrint(testbody);
-
-                      setState(() => _messages = messages);
-                    } else {
-                      await Permission.sms.request();
-                    }
+                onPressed: () {
+                  _getSmsMessages();
                 },
                 child: const Text('get sms')),
           ),
+          Text(sms),
           Flexible(
             child: ListView.builder(
               shrinkWrap: true,
@@ -92,7 +106,7 @@ class _SmsWidgetState extends State<SmsWidget> {
                 var message = _messages[i];
 
                 return ListTile(
-                  title: Text('${message.sender} [${message.date}]'),
+                  title: Text('${message.address} [${message.date}]'),
                   subtitle: Text('${message.body}'),
                 );
               },
