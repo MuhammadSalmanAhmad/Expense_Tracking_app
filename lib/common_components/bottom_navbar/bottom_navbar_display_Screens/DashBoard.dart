@@ -41,20 +41,25 @@ class _MainPanelState extends State<MainPanel> {
     // TODO: implement initState
     expense_reference.onChildAdded.listen((event) {
       var snapshot = event.snapshot;
+      if (mounted) {
+        setState(() {
+          Expensedata = snapshot.value as Map<dynamic, dynamic>;
+          amounts.add(int.parse(snapshot.child('amount').value.toString()));
+          categories.add(snapshot.child('category').value.toString());
+        });
+      }
 
-      setState(() {
-        Expensedata = snapshot.value as Map<dynamic, dynamic>;
-        amounts.add(int.tryParse(snapshot.child('amount').value.toString())!);
-        categories.add(snapshot.child('category').value.toString());
-      });
       print(Expensedata);
       for (var i in Expensedata.keys) {
         if (i == 'amount') {
-          setState(() {
-            total_expense = total_expense +
-                double.tryParse(snapshot.child('amount').value.toString())!
-                    .toInt();
-          });
+          if (mounted) {
+            setState(() {
+              total_expense = total_expense +
+                  double.tryParse(snapshot.child('amount').value.toString())!
+                      .toInt();
+            });
+          }
+          
         }
       }
       print(total_expense);
@@ -74,9 +79,11 @@ class _MainPanelState extends State<MainPanel> {
     late List<ExpenseData> chartdata = getData();
     reference.child('$username/name').onValue.listen((event) {
       var snapshot = event.snapshot;
-      setState(() {
-        data = snapshot.value.toString();
-      });
+      if (this.mounted) {
+        setState(() {
+          data = snapshot.value.toString();
+        });
+      }
     });
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -114,8 +121,7 @@ class _MainPanelState extends State<MainPanel> {
                         subtitle: Text(snapshot.child('Date').value.toString()),
                         title:
                             Text(snapshot.child('category').value.toString()),
-                        trailing: Text(
-                            "\$${snapshot.child('amount').value}"));
+                        trailing: Text("\AED${snapshot.child('amount').value}"));
                   }))
         ],
       ),
