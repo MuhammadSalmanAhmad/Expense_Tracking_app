@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>164094556234-81u6e71o99cb02dc5vh26mq9cn51n6l7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.164094556234-81u6e71o99cb02dc5vh26mq9cn51n6l7</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAVM0syJjAODQk-e5UPHRJRh_ltDrcpoKQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>164094556234</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.xpenseApp</string>
+	<key>PROJECT_ID</key>
+	<string>expense-app-8b26d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>expense-app-8b26d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:164094556234:ios:995dcd05f0667de8fd8eb3</string>
+	<key>DATABASE_URL</key>
+	<string>https://expense-app-8b26d-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

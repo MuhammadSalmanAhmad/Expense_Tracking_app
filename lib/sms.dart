@@ -12,7 +12,7 @@ class SmsWidget extends StatefulWidget {
 }
 
 class _SmsWidgetState extends State<SmsWidget> {
-  late String sms = "Your messages will be displayed here";
+  late String sms = "Your messages will be displayed here if not so kindly go back and then come again";
 
   final Telephony telephony = Telephony.instance;
   List<SmsMessage> _messages = [];
@@ -162,16 +162,32 @@ class _SmsWidgetState extends State<SmsWidget> {
           ),
           Text(sms),
           Flexible(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: _messages.length,
-              itemBuilder: (BuildContext context, int i) {
-                var message = _messages[i];
-
-                return ListTile(
-                  title: Text('${message.address} [${message.date}]'),
-                  subtitle: Text('${message.body}'),
-                );
+            child: FutureBuilder(
+              future: _getSmsMessages(),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return ListView.builder(
+                shrinkWrap: true,
+                itemCount: _messages.length,
+                itemBuilder: (BuildContext context, int i) {
+                  var message = _messages[i];
+            
+                  return ListTile(
+                    title: Text('${message.address} [${message.date}]'),
+                    subtitle: Text('${message.body}'),
+                  );
+                },
+              );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               },
             ),
           )
